@@ -19,6 +19,22 @@ RUN cd /usr/src/glibc \
     && tar xvf glibc-2.33.tar.xz
 
 
+RUN useradd -M build
+RUN mkdir packages && chown -R build:build /packages && chmod -R 777 /packages
+USER build
+
+RUN cd packages \
+    && git clone https://aur.archlinux.org/ncurses5-compat-libs.git \
+    && cd ncurses5-compat-libs \
+    && makepkg --skipchecksums --skippgpcheck
+    # Install glibc-debug \
+
+USER root
+RUN cd /packages/ncurses5-compat-libs \
+    && ls -la \
+    && pacman -U --noconfirm *.pkg.tar.zst
+
+
 #RUN useradd -M build
 #RUN mkdir packages && chown -R build:build /packages
 #USER build
