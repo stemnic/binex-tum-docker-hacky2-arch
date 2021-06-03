@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t hacky2-arch:latest .
+docker build -t stemnic/binex-hacky2-arch:latest .
